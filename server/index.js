@@ -1,25 +1,46 @@
-const express = require('express');
-const mongoose = require('mongoose');
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
 const app = express();
+require('dotenv').config('./.env');
 
-const FoodModel = require("./models/Food")
+const FoodModel = require("./models/Food");
 
-app.use(express.json())
+app.use(express.json()); //parses the data from the frontend into a JSON object
+app.use(cors()); //allows the database to read the data from the frontend (I think)
 
-mongoose.connect("", {
+/* This line says to connect to the database called food_crud (create that database if it doesn't exist)  */
+mongoose.connect("",
+  {
     useNewUrlParser: true,
+  }
+);
+
+app.post("/insert", async (req, res) => {
+  const foodName = req.body.foodName;
+  const days = req.body.days;
+
+  const food = new FoodModel({ foodName: foodName, daysSinceConsumed: days });
+
+  try {
+    await food.save();
+    res.send("Inserted Data: " + food);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-app.get('/', async(req, res) => {
-    const food = new FoodModel({foodName: "Apple", daysSinceConsumed: 4});
-
-    try{
-        await food.save();
-    } catch(err){
-        console.log(err)
+app.get("/read", async (req, res) => {
+  /* use the line below to find all elements in the database */
+  FoodModel.find({}, (err, result) =>{
+    if (err) {
+        res.send(err);
     }
-})
+    res.send(result);
+  });
+  /* use FoodModel.find({ $where: { foodName: "apple" } }, ) to find all elements where foodName = apple*/
+});
 
 app.listen(3001, () => {
-    console.log("Server running on port 3001");
-})
+  console.log("Server running on port 3001...");
+});
