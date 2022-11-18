@@ -41,6 +41,22 @@ app.get("/read", async (req, res) => {
   /* use FoodModel.find({ $where: { foodName: "apple" } }, ) to find all elements where foodName = apple*/
 });
 
+app.put("/update", async (req, res) => {
+  const newFoodName = req.body.newFoodName;
+  const id = req.body.id;
+
+  try {
+   await FoodModel.findById(id, (err, updatedFood) => {
+      updatedFood.foodName = newFoodName;
+      updatedFood.daysSinceConsumed = newDays;
+      updatedFood.save();
+      res.send("update");
+    })
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 app.listen(3001, () => {
   console.log("Server running on port 3001...");
 });
