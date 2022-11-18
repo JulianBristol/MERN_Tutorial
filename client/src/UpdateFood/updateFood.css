@@ -8,16 +8,44 @@
   margin-top: -200px;
   background-color: rgb(188, 181, 181);
 }
-.test {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 #clsBtn {
     width: 30px;
     position: absolute;
     right: 5px;
     top: 5px;
     background-color: transparent;
+}
+.field {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+
+}
+.field label{
+  position: absolute;
+  right: 320px;
+  margin-top: 10px;
+}
+.field input{
+  position: absolute;
+  right: 100px;
+}
+.top *{
+ top: 80px;
+}
+.bottom *{
+  top: 30px;
+}
+span{
+  color: gray;
+  position: absolute;
+  right: 135px;
+  margin-top: 10px;
+}
+.float{
+  position: absolute;
+  top: 200px;
+  right: 150px;
 }
