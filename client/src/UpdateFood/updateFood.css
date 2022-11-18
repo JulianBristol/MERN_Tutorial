@@ -1,0 +1,23 @@
+.divFloat {
+  position: absolute;
+  border: 2px solid black;
+  border-radius: 10px;
+  width: 500px;
+  height: 300px;
+  margin-left: -250px;
+  margin-top: -200px;
+  background-color: rgb(188, 181, 181);
+}
+.test {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#clsBtn {
+    width: 30px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background-color: transparent;
+}

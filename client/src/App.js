@@ -1,11 +1,16 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import Axios from "axios";
+import UpdateFood from "./UpdateFood/UpdateFood";
 
 function App() {
   const [foodName, setFoodName] = useState("");
   const [days, setDays] = useState(0);
+  const [displayEdit, setDisplayEdit] = useState(false);
   const [foodList, setFoodList] = useState([]);
+  const [updateFood, setUpdateFood] = useState("");
+  const [updateNum, setUpdateNum] = useState(0);
+  const [updateKey, setUpdateKey] = useState(0);
 
   useEffect(() => {
     Axios.get("http://localhost:3001/read").then((response) => {
@@ -41,16 +46,31 @@ function App() {
       />
       <button onClick={addToDatabase}>Add to List</button>
 
+      <div
+        className="divAnchor"
+        style={{ display: displayEdit ? "block" : "none" }}
+      >
+        <UpdateFood
+          foodName={updateFood}
+          days={updateNum}
+          key={updateKey}
+          setDisplayEdit={setDisplayEdit}
+        />
+      </div>
+
       <hr />
       <h1>Food List</h1>
       <table>
         <tbody>
           <tr>
             <th>
-              <h1>Food Name</h1>
+              <h2>Food Name</h2>
             </th>
             <th>
-              <h1>Days Since Consumed</h1>
+              <h2>Last Consumed</h2>
+            </th>
+            <th>
+              <h2>Options</h2>
             </th>
           </tr>
           {foodList.map((val, key) => {
@@ -61,6 +81,20 @@ function App() {
                 </td>
                 <td>
                   <h3>{val.daysSinceConsumed}</h3>
+                </td>
+                <td>
+                  <button
+                    className="upBtn"
+                    onClick={(e) => {
+                      setUpdateFood(val.foodName);
+                      setUpdateNum(val.daysSinceConsumed);
+                      setUpdateKey(key);
+                      setDisplayEdit(true);
+                    }}
+                  >
+                    Update
+                  </button>
+                  <button className="delBtn">Delete</button>
                 </td>
               </tr>
             );

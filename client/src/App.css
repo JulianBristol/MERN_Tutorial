@@ -11,6 +11,19 @@ input, button{
   font-size: 20px;
   margin-bottom: 20px;
 }
+button{
+  background-color: #33cc22;
+  cursor: pointer;
+}
+.upBtn{
+  background-color: #22ddff;
+  width: 100px;
+  margin-right: 20px;
+}
+.delBtn {
+  background-color: #cc3322;
+  width: 100px;
+}
 hr {
   width: 100%;
 }
@@ -28,4 +41,8 @@ td, th {
 
 tr:nth-child(even) {
   background-color: #dddddd;
+}
+
+.divAnchor{
+  position: relative;
 }
