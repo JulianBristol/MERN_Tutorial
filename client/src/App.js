@@ -14,17 +14,11 @@ function App() {
   /* Update element and send to the database */
   const [displayEdit, setDisplayEdit] = useState(false);
   const [updateFood, setUpdateFood] = useState("");
-  const [updateNum, setUpdateNum] = useState(0);
+  const [initialName, setInitialName] = useState("");
+  const [updateDays, setUpdateDays] = useState(0);
   const [updateId, setUpdateId] = useState("");
 
   /* Database Queries -- BEGIN --*/
-  /* Initial Database Read */
-  useEffect(() => {
-    Axios.get("http://localhost:3001/read").then((response) => {
-      setFoodList(response.data);
-    });
-  }, []);
-
   /* Database Create/Write */
   const addToDatabase = () => {
     Axios.post("http://localhost:3001/insert", {
@@ -33,15 +27,26 @@ function App() {
     });
   };
 
+  /* Database Read */
+  useEffect(() => {
+    Axios.get("http://localhost:3001/read").then((response) => {
+      setFoodList(response.data);
+    });
+  }, []);
+
   /* Database Update */
-  const update = (id, newFoodName, days) => {
-    newFoodName = capitalize(newFoodName);
+  const update = (id) => {
     Axios.put("http://localhost:3001/update", {
       id: id,
-      newFoodName: newFoodName,
-      days: days,
+      newFoodName: updateFood,
+      days: updateDays,
     });
   };
+
+  /* Database Delete */
+  const deleteFromDatabase = (id) => {
+    Axios.delete(`http://localhost:3001/delete/${id}`);
+  }
   /* Database Queries -- END --*/
 
   /* Functions */
@@ -84,13 +89,15 @@ function App() {
         style={{ display: displayEdit ? "block" : "none" }}
       >
         <UpdateFood
+        initialName={initialName}
           foodName={updateFood}
           setUpdateFood={setUpdateFood}
-          days={updateNum}
-          setUpdateNum={setUpdateNum}
+          days={updateDays}
+          setUpdateDays={setUpdateDays}
           id={updateId}
           setDisplayEdit={setDisplayEdit}
           update={update}
+          capitalize={capitalize}
         />
       </div>
       {/* Alter Database Entry Window -- END -- */}
@@ -127,7 +134,8 @@ function App() {
                     className="upBtn"
                     onClick={(e) => {
                       setUpdateFood(val.foodName);
-                      setUpdateNum(val.daysSinceConsumed);
+                      setInitialName(val.foodName)
+                      setUpdateDays(val.daysSinceConsumed);
                       setUpdateId(val._id);
                       setDisplayEdit(true);
                     }}
@@ -135,7 +143,9 @@ function App() {
                     Update
                   </button>
 
-                  <button className="delBtn">Delete</button>
+                  <button className="delBtn" onClick={() => {
+                    deleteFromDatabase(val._id)
+                  }}>Delete</button>
                 </td>
               </tr>
             );

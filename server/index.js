@@ -16,6 +16,7 @@ mongoose.connect("",
   }
 );
 
+/* Database Create/Write */
 app.post("/insert", async (req, res) => {
   const foodName = req.body.foodName;
   const days = req.body.days;
@@ -30,6 +31,7 @@ app.post("/insert", async (req, res) => {
   }
 });
 
+/* Database Read */
 app.get("/read", async (req, res) => {
   /* use the line below to find all elements in the database */
   FoodModel.find({}, (err, result) =>{
@@ -41,9 +43,11 @@ app.get("/read", async (req, res) => {
   /* use FoodModel.find({ $where: { foodName: "apple" } }, ) to find all elements where foodName = apple*/
 });
 
+/* Database Update */
 app.put("/update", async (req, res) => {
-  const newFoodName = req.body.newFoodName;
   const id = req.body.id;
+  const newFoodName = req.body.newFoodName;
+  const newDays = req.body.days;
 
   try {
    await FoodModel.findById(id, (err, updatedFood) => {
@@ -55,6 +59,14 @@ app.put("/update", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
+});
+
+/* Database Delete */
+app.delete("/delete/:id", async (req, res) => {
+  const id = req.params.id;
+
+  await FoodModel.findByIdAndRemove(id).exec();
+  res.send("Deleted");
 });
 
 app.listen(3001, () => {

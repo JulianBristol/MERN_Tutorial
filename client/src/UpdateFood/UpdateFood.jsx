@@ -5,7 +5,7 @@ const UpdateFood = (props) => {
   return (
     <>
       <div className="divFloat">
-        <h1>Update {props.foodName}</h1>
+        <h1>Update {props.initialName}</h1>
 
         <button
           id="clsBtn"
@@ -23,7 +23,7 @@ const UpdateFood = (props) => {
             placeholder={props.foodName}
             value={props.foodName}
             onChange={(e) => {
-              props.setUpdateFood(e.target.value);
+              props.setUpdateFood(props.capitalize(e.target.value));
             }}
           />
         </div>
@@ -35,6 +35,7 @@ const UpdateFood = (props) => {
             type="number"
             placeholder={props.days}
             value={props.days}
+            min={0}
             onChange={(e) => {
               props.setUpdateDays(e.target.value);
             }}
@@ -45,7 +46,7 @@ const UpdateFood = (props) => {
         <button
           className="upBtn float"
           onClick={() => {
-            props.update();
+            props.update(props.id);
             props.setDisplayEdit(false);
           }}
         >
