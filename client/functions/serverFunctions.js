@@ -14,7 +14,34 @@ exports.handler = async function(event, context) {
   {
     useNewUrlParser: true,
   });
+
+  //Create
+  if (event.httpMethod === 'POST') {
+    try {
+      const requestBody = JSON.parse(event.body);
+      const foodName = requestBody.foodName;
+      const days = requestBody.days;
+      const food = new FoodModel({ foodName: foodName, daysSinceConsumed: days });
   
+      try {
+        await food.save();
+        return {
+          statusCode: 200,
+          body: JSON.stringify({success: `Inserted ${food}`}),
+        };
+      } catch (err) {
+        console.log(err);
+      }
+    } catch (error) {
+      console.log(error);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Error Creating Document' }),
+      };
+    }
+  }
+
+  //Read
   if (event.httpMethod === 'GET') {
     try {
       const foods = await FoodModel.find({}).exec();
@@ -32,30 +59,71 @@ exports.handler = async function(event, context) {
       console.log(error);
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Error retrieving data' }),
+        body: JSON.stringify({ error: 'Error retrieving documents' }),
       };
     }
   }
-  
-  if (event.httpMethod === 'POST') {
-    /* try {
-      const foods = await FoodModel.find({}).exec();
-      const responseData = foods.map((food) => ({
-        id: food._id,
-        foodName: food.foodName,
-        daysSinceConsumed: food.daysSinceConsumed,
-      }));
-    
-      return {
-        statusCode: 200,
-        body: JSON.stringify(responseData),
-      };
+
+  //Update
+  if (event.httpMethod === 'PUT') {
+    try {
+      const requestBody = JSON.parse(event.body);
+      const id = requestBody.id;
+      const newFoodName = requestBody.newFoodName;
+      const newDays = requestBody.newDays;
+
+      try {
+        const updatedFood = await FoodModel.findById(id);
+        console.log(updatedFood)
+        updatedFood.foodName = newFoodName;
+        updatedFood.daysSinceConsumed = newDays;
+        console.log(updatedFood)
+        await updatedFood.save();
+        return {
+          statusCode: 200,
+          body: JSON.stringify({success: `Updated ID: ${id}`}),
+        };
+      } catch (err) {
+        console.log(err);
+      }
     } catch (error) {
       console.log(error);
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Error retrieving data' }),
+        body: JSON.stringify({ error: 'Error Updating document' }),
       };
-    } */
+    }
   }
+
+  //Delete
+  /* if (event.httpMethod === 'PUT') {
+    try {
+      const requestBody = JSON.parse(event.body);
+      const id = requestBody.id;
+      const newFoodName = requestBody.newFoodName;
+      const newDays = requestBody.newDays;
+
+      try {
+        const updatedFood = await FoodModel.findById(id);
+        console.log(updatedFood)
+        updatedFood.foodName = newFoodName;
+        updatedFood.daysSinceConsumed = newDays;
+        console.log(updatedFood)
+        await updatedFood.save();
+        return {
+          statusCode: 200,
+          body: JSON.stringify({success: `Updated ID: ${id}`}),
+        };
+      } catch (err) {
+        console.log(err);
+      }
+    } catch (error) {
+      console.log(error);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Error Updating document' }),
+      };
+    }
+  } */
+
 }

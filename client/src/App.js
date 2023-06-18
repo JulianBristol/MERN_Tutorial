@@ -36,7 +36,7 @@ function App() {
 
   /* Database Create/Write */
   const addToDatabase = () => {
-    Axios.post("http://localhost:3001/insert", {
+    Axios.post('../../.netlify/functions/serverFunctions', {
       foodName: foodName,
       days: days,
     })
@@ -51,11 +51,11 @@ function App() {
   }, []);
 
   /* Database Update */
-  const update = (id) => {
-    Axios.put("http://localhost:3001/update", {
-      id: id,
+  const update = () => {
+    Axios.put('../../.netlify/functions/serverFunctions', {
+      id: updateId,
       newFoodName: updateFood,
-      days: updateDays,
+      newDays: updateDays,
     })
     .then(() => {
       readDatabase();
@@ -158,7 +158,7 @@ function App() {
                       setUpdateFood(val.foodName);
                       setInitialName(val.foodName)
                       setUpdateDays(val.daysSinceConsumed);
-                      setUpdateId(val._id);
+                      setUpdateId(val.id);
                       setDisplayEdit(true);
                     }}
                   >
