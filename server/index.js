@@ -10,7 +10,7 @@ app.use(express.json()); //parses the data from the frontend into a JSON object
 app.use(cors()); //allows the database to read the data from the frontend (I think)
 
 /* This line says to connect to the database called food_crud (create that database if it doesn't exist)  */
-mongoose.connect("",
+mongoose.connect(`mongodb+srv://${process.env.MongoDB_UserName}:${process.env.MongoDB_Password}@shoppinglistapp.aikcfcl.mongodb.net/shoppingList`,
   {
     useNewUrlParser: true,
   }
@@ -40,7 +40,7 @@ app.get("/read", async (req, res) => {
     }
     res.send(result);
   });
-  /* use FoodModel.find({ $where: { foodName: "apple" } }, ) to find all elements where foodName = apple*/
+  
 });
 
 /* Database Update */
@@ -50,12 +50,11 @@ app.put("/update", async (req, res) => {
   const newDays = req.body.days;
 
   try {
-   await FoodModel.findById(id, (err, updatedFood) => {
-      updatedFood.foodName = newFoodName;
-      updatedFood.daysSinceConsumed = newDays;
-      updatedFood.save();
-      res.send("update");
-    })
+    const updatedFood = await FoodModel.findById(id);
+    updatedFood.foodName = newFoodName;
+    updatedFood.daysSinceConsumed = newDays;
+    await updatedFood.save();
+    res.send("update");
   } catch (err) {
     console.log(err);
   }

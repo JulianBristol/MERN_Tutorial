@@ -19,19 +19,25 @@ function App() {
   const [updateId, setUpdateId] = useState("");
 
   /* Database Queries -- BEGIN --*/
+  const readDatabase = () => {
+    Axios.get("http://localhost:3001/read").then((response) => {
+      setFoodList(response.data);
+    });
+  }
   /* Database Create/Write */
   const addToDatabase = () => {
     Axios.post("http://localhost:3001/insert", {
       foodName: foodName,
       days: days,
+    })
+    .then(() => {
+      readDatabase();
     });
   };
 
   /* Database Read */
   useEffect(() => {
-    Axios.get("http://localhost:3001/read").then((response) => {
-      setFoodList(response.data);
-    });
+    readDatabase();
   }, []);
 
   /* Database Update */
@@ -40,12 +46,18 @@ function App() {
       id: id,
       newFoodName: updateFood,
       days: updateDays,
+    })
+    .then(() => {
+      readDatabase();
     });
   };
 
   /* Database Delete */
   const deleteFromDatabase = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`);
+    Axios.delete(`http://localhost:3001/delete/${id}`)
+    .then(() => {
+      readDatabase();
+    });
   }
   /* Database Queries -- END --*/
 
