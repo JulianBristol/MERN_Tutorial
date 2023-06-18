@@ -19,11 +19,21 @@ function App() {
   const [updateId, setUpdateId] = useState("");
 
   /* Database Queries -- BEGIN --*/
-  const readDatabase = () => {
+  /* const readDatabase = () => {
     Axios.get("http://localhost:3001/read").then((response) => {
       setFoodList(response.data);
     });
-  }
+  } */
+
+  const readDatabase = async () => {
+    try {
+      const response = await Axios.get('../../.netlify/functions/serverFunctions');
+      setFoodList(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   /* Database Create/Write */
   const addToDatabase = () => {
     Axios.post("http://localhost:3001/insert", {
