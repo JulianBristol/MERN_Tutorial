@@ -64,7 +64,9 @@ function App() {
 
   /* Database Delete */
   const deleteFromDatabase = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`)
+    Axios.delete(`../../.netlify/functions/serverFunctions`, {
+      id: id,
+    })
     .then(() => {
       readDatabase();
     });
@@ -166,7 +168,7 @@ function App() {
                   </button>
 
                   <button className="delBtn" onClick={() => {
-                    deleteFromDatabase(val._id)
+                    deleteFromDatabase(val.id)
                   }}>Delete</button>
                 </td>
               </tr>

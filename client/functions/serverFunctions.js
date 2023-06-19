@@ -96,23 +96,16 @@ exports.handler = async function(event, context) {
   }
 
   //Delete
-  /* if (event.httpMethod === 'PUT') {
+  if (event.httpMethod === 'DELETE') {
     try {
       const requestBody = JSON.parse(event.body);
       const id = requestBody.id;
-      const newFoodName = requestBody.newFoodName;
-      const newDays = requestBody.newDays;
 
       try {
-        const updatedFood = await FoodModel.findById(id);
-        console.log(updatedFood)
-        updatedFood.foodName = newFoodName;
-        updatedFood.daysSinceConsumed = newDays;
-        console.log(updatedFood)
-        await updatedFood.save();
+        await FoodModel.findByIdAndRemove(id).exec();
         return {
           statusCode: 200,
-          body: JSON.stringify({success: `Updated ID: ${id}`}),
+          body: JSON.stringify({success: `Deleted ID: ${id}`}),
         };
       } catch (err) {
         console.log(err);
@@ -121,9 +114,9 @@ exports.handler = async function(event, context) {
       console.log(error);
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Error Updating document' }),
+        body: JSON.stringify({ error: 'Error Deleting document' }),
       };
     }
-  } */
+  }
 
 }
