@@ -14,6 +14,8 @@ exports.handler = async function(event, context) {
   {
     useNewUrlParser: true,
   });
+  console.log(process.env.MongoDB_UserName)
+  console.log(process.env.MongoDB_Password)
 
   //Create
   if (event.httpMethod === 'POST') {
