@@ -35,7 +35,7 @@ const UpdateFood = (props) => {
             type="number"
             placeholder={props.days}
             value={props.days}
-            min={0}
+            min={1}
             onChange={(e) => {
               props.setUpdateDays(e.target.value);
             }}
