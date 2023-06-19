@@ -59,13 +59,16 @@ function App() {
     })
     .then(() => {
       readDatabase();
+    })
+    .catch((error) => {
+      console.log(error);
     });
   };
 
   /* Database Delete */
   const deleteFromDatabase = (id) => {
     Axios.delete(`../../.netlify/functions/serverFunctions`, {
-      id: id,
+      data: {id: id,}
     })
     .then(() => {
       readDatabase();
