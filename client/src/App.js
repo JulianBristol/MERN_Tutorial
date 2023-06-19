@@ -6,7 +6,7 @@ import UpdateFood from "./UpdateFood/UpdateFood";
 function App() {
   /* Add Data to the database */
   const [foodName, setFoodName] = useState("");
-  const [days, setDays] = useState(0);
+  const [days, setDays] = useState(1);
 
   /* Receive data from the database */
   const [foodList, setFoodList] = useState([]);
@@ -15,7 +15,7 @@ function App() {
   const [displayEdit, setDisplayEdit] = useState(false);
   const [updateFood, setUpdateFood] = useState("");
   const [initialName, setInitialName] = useState("");
-  const [updateDays, setUpdateDays] = useState(0);
+  const [updateDays, setUpdateDays] = useState(1);
   const [updateId, setUpdateId] = useState("");
 
   /* Database Queries -- BEGIN --*/
@@ -88,7 +88,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>CRUD App with MERN</h1>
+      <h1>MERN Shopping List</h1>
 
       <label>Food Name</label>
       <input
@@ -99,10 +99,11 @@ function App() {
         }}
       />
 
-      <label>Days Since You Ate It</label>
+      <label>Quantity</label>
       <input
         type="number"
         placeholder={days}
+        min={1}
         onChange={(e) => {
           setDays(e.target.value);
         }}
@@ -132,7 +133,7 @@ function App() {
       <hr />
 
       {/* List Foods from Database -- BEGIN -- */}
-      <h1>Food List</h1>
+      <h1>Shopping List</h1>
       <table>
         <tbody>
           <tr>
@@ -140,7 +141,7 @@ function App() {
               <h2>Name</h2>
             </th>
             <th>
-              <h2>Consumed</h2>
+              <h2>Quantity</h2>
             </th>
             <th>
               <h2>Options</h2>
@@ -153,7 +154,7 @@ function App() {
                   <h3>{val.foodName}</h3>
                 </td>
                 <td>
-                  <h3>{val.daysSinceConsumed} days ago</h3>
+                  <h3>{val.daysSinceConsumed}</h3>
                 </td>
                 <td>
 

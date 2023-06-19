@@ -30,7 +30,7 @@ const UpdateFood = (props) => {
 
         <div className="field bottom"
             style={{ position: 'relative' }}>
-          <label>Comsumed</label>
+          <label>Quantity</label>
           <input
             type="number"
             placeholder={props.days}
@@ -40,7 +40,7 @@ const UpdateFood = (props) => {
               props.setUpdateDays(e.target.value);
             }}
           />
-          <span>days ago</span>
+          {/* <span>days ago</span> */}
         </div>
 
         <button
